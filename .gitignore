@@ -1,0 +1,18 @@
+# NetBeans / build artifacts (se generan en el Dockerfile, no hace falta subirlos)
+build/
+dist/
+nbproject/private/
+
+# Compilados
+*.class
+*.war
+*.jar
+!web/**/*.jar
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+*.iml

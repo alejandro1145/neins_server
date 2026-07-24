@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Pa' La Sed — Acceso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:       #0a0900;
+            --card:     rgba(12,11,8,0.96);
+            --gold:     #d4af37;
+            --gold2:    #c9a22a;
+            --gold3:    #b8962e;
+            --text:     #f5f0d8;
+            --muted:    #6a5c38;
+            --dimmed:   #4a4030;
+            --border:   rgba(212,175,55,0.18);
+            --red:      #e07060;
+            --green:    #5dba7d;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(160deg, rgba(5,4,2,0.93) 0%, rgba(10,8,4,0.97) 100%),
+                url('https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&q=80')
+                center/cover no-repeat fixed;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 20px;
+            color: var(--text);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 700px 500px at 10% 90%, rgba(212,175,55,0.05) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 700px at 90% 10%, rgba(212,175,55,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Tarjeta ── */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: var(--card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 52px 48px 44px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow:
+                0 40px 90px rgba(0,0,0,0.9),
+                0 0 0 1px rgba(255,255,255,0.025),
+                inset 0 1px 0 rgba(212,175,55,0.12);
+        }
+
+        /* ── Logo ── */
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+
+        .logo-icon {
+            width: 68px; height: 68px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.32);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 28px rgba(212,175,55,0.14);
+        }
+
+        .logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 48px rgba(212,175,55,0.28);
+        }
+
+        .logo-sub {
+            font-size: 0.67rem;
+            color: var(--dimmed);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        /* ── Divisor ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212,175,55,0.2), transparent);
+        }
+        .divider span {
+            font-size: 0.7rem;
+            color: var(--dimmed);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* ── Alertas ── */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 24px;
+            font-size: 0.87rem;
+            line-height: 1.5;
+            animation: fadeDown 0.3s ease;
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .alert-icon { font-size: 0.95rem; flex-shrink: 0; margin-top: 2px; }
+        .alert-error   { background: rgba(192,57,43,0.1);  border: 1px solid rgba(192,57,43,0.3);  color: var(--red);   }
+        .alert-success { background: rgba(39,174,96,0.1);  border: 1px solid rgba(39,174,96,0.3);  color: var(--green); }
+
+        /* ── Campos ── */
+        .field { margin-bottom: 20px; }
+
+        .field label {
+            display: block;
+            font-size: 0.71rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .field-inner {
+            position: relative;
+        }
+
+        .field-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: var(--dimmed);
+            pointer-events: none;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .field-inner:focus-within .field-icon { color: var(--gold); }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 13px 16px 13px 44px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.13);
+            border-radius: 11px;
+            color: var(--text);
+            font-size: 0.97rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+        }
+        input::placeholder { color: #352c18; }
+        input:focus {
+            outline: none;
+            border-color: rgba(212,175,55,0.5);
+            background: rgba(212,175,55,0.04);
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+        }
+
+        .toggle-pass {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--dimmed);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+        .toggle-pass:hover { color: var(--gold); }
+
+        /* ── Fila inferior del form ── */
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 26px;
+            font-size: 0.83rem;
+        }
+
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            cursor: pointer;
+            user-select: none;
+        }
+        .check-label input[type="checkbox"] {
+            width: 15px; height: 15px;
+            padding: 0; margin: 0;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .link-forgot {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color 0.2s;
+        }
+        .link-forgot:hover { color: var(--gold); }
+
+        /* ── Botón principal ── */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold3) 100%);
+            color: #0a0800;
+            font-weight: 700;
+            font-size: 0.97rem;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: 11px;
+            cursor: pointer;
+            letter-spacing: 0.8px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        }
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.14), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(212,175,55,0.38); }
+        .btn-submit:hover::before { opacity: 1; }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit.loading { opacity: 0.65; cursor: not-allowed; pointer-events: none; transform: none; }
+
+        /* ── Pie ── */
+        .card-footer {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(212,175,55,0.08);
+            text-align: center;
+            font-size: 0.84rem;
+            color: var(--dimmed);
+        }
+        .card-footer a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .card-footer a:hover { opacity: 0.75; text-decoration: underline; }
+
+        /* ── Responsive ── */
+        @media (max-width: 480px) {
+            .card { padding: 38px 26px 34px; border-radius: 20px; }
+            .logo-title { font-size: 1.5rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="Estilos/global.css">
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo-wrap">
+        <div class="logo-icon">🥃</div>
+        <h1 class="logo-title">Una Pa' La Sed</h1>
+        <p class="logo-sub">Cartera Digital</p>
+    </div>
+
+    <div class="divider"><span>Acceso</span></div>
+
+    <div id="msg-alert" style="display:none;"></div>
+
+    <form action="LoginServlet" method="POST" id="login-form" autocomplete="on">
+
+        <div class="field">
+            <label for="correo">Correo electrónico</label>
+            <div class="field-inner">
+                <span class="field-icon">✉</span>
+                <input type="email" name="txtCorreo" id="correo"
+                       placeholder="usuario@correo.com"
+                       required autocomplete="email">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="clave">Contraseña</label>
+            <div class="field-inner">
+                <span class="field-icon">🔒</span>
+                <input type="password" name="txtClave" id="clave"
+                       placeholder="••••••••"
+                       required autocomplete="current-password">
+                <button type="button" class="toggle-pass" id="toggle-pass"
+                        aria-label="Mostrar contraseña">Ÿ‘</button>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <label class="check-label">
+                <input type="checkbox" name="recordar" id="recordar">
+                Recordarme
+            </label>
+            <a href="Vista/RecuperarClave.jsp" class="link-forgot">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-submit">Ingresar</button>
+
+    </form>
+
+    <div class="card-footer">
+        <p>¿No tienes cuenta? <a href="Vista/RegistroUsuario.jsp">Regístrate aquí</a></p>
+    </div>
+
+</div>
+
+<script>
+    // ── Mensajes por URL params ──
+    const params  = new URLSearchParams(window.location.search);
+    const alertEl = document.getElementById('msg-alert');
+
+    function showAlert(type, icon, text) {
+        alertEl.className = 'alert alert-' + type;
+        alertEl.innerHTML = '<span class="alert-icon">' + icon + '</span><span>' + text + '</span>';
+        alertEl.style.display = 'flex';
+    }
+
+    const err = params.get('error');
+    if      (err === '1')      showAlert('error', '✕', 'Correo o contraseña incorrectos. Vuelve a intentarlo.');
+    else if (err === 'db')     showAlert('error', '⚠', 'Error de conexión con la base de datos. Intenta más tarde.');
+    else if (err === 'notables') showAlert('error', '⚠', 'La base de datos está vacía. Importa el archivo SQL primero.');
+    else if (err === 'acceso') showAlert('error', '🔒', 'Acceso denegado. No tienes permiso para esa sección.');
+
+    if (params.get('registrado') === '1') showAlert('success', '✓', '¡Registro exitoso! Ya puedes iniciar sesión.');
+    if (params.get('logout')     === '1') showAlert('success', '✓', 'Sesión cerrada correctamente.');
+
+    // ── Toggle contraseña ──
+    document.getElementById('toggle-pass').addEventListener('click', function () {
+        const input = document.getElementById('clave');
+        const show  = input.type === 'password';
+        input.type  = show ? 'text' : 'password';
+        this.textContent = show ? '🙈' : 'Ÿ‘';
+    });
+
+    // ── Estado de carga ──
+    document.getElementById('login-form').addEventListener('submit', function () {
+        const btn = document.getElementById('btn-submit');
+        btn.textContent = 'Verificando…';
+        btn.classList.add('loading');
+    });
+</script>
+
+    <script src="Scripts/premium-ui.js"></script>
+</body>
+</html>
+

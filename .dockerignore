@@ -1,0 +1,7 @@
+nbproject
+dist
+build/generated-sources
+build/empty
+database
+*.md
+.git
