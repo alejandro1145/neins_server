@@ -1,13 +1,12 @@
-# NetBeans / build artifacts (se generan en el Dockerfile, no hace falta subirlos)
+# NetBeans / build artifacts intermedios (no hacen falta, el WAR ya viene armado)
 build/
-dist/
 nbproject/private/
 
-# Compilados
+# Compilados (excepto el WAR final, que SÍ se sube porque el Dockerfile lo usa)
 *.class
-*.war
 *.jar
 !web/**/*.jar
+!dist/Neins.war
 
 # Sistema
 .DS_Store

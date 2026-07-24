@@ -1,7 +1,7 @@
 nbproject
-dist
-build/generated-sources
-build/empty
+build
 database
+src
+web
 *.md
 .git
